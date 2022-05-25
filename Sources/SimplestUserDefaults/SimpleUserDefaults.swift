@@ -33,9 +33,9 @@ public struct SimpleUserDefaults<T> {
         }
 
         set {
-            if let optional = newValue as? SomeOptional {
-                guard optional.nonNil else {
-                    database.removeObject(forKey: key)
+            if type(of: newValue) is ExpressibleByNilLiteral.Type {
+                if (newValue as! ExpressibleByNilLiteral?) == nil {
+                    UserDefaults.standard.removeObject(forKey: key)
 
                     return
                 }
